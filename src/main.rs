@@ -171,13 +171,14 @@ fn calc_remaining(
     accumulated_pause: u64,
     status: Status,
 ) -> i64 {
-    let elapsed = start.elapsed().as_secs();
-    let remaining = if status == Status::Paused {
-        seconds + accumulated_pause + pause_start.elapsed().as_secs() - elapsed
+    let elapsed = start.elapsed().as_secs() as i64;
+    let remaining = seconds as i64 + accumulated_pause as i64 - elapsed;
+    if status == Status::Paused {
+        let pause_elapsed = pause_start.elapsed().as_secs() as i64;
+        remaining + pause_elapsed
     } else {
-        seconds + accumulated_pause - elapsed
-    } as i64;
-    remaining
+        remaining
+    }
 }
 
 fn enable_raw_terminal() {
@@ -252,10 +253,15 @@ fn update_status(key: KeyEvent, current_status: Status) -> Status {
 }
 
 fn notify(summary: &str, body: &str) {
+    #[cfg(target_os = "windows")]
+    let sound_name = "Default";
+    #[cfg(not(target_os = "windows"))]
+    let sound_name = "window-attention-inactive";
     Notification::new()
         .summary(summary)
         .body(body)
         .appname("Pomodoro")
+        .sound_name(sound_name)
         .timeout(0) // never expires
         .show()
         .expect("Could not show notification");

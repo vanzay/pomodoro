@@ -2,15 +2,15 @@
 
 A cross-platform timer with logging and notifications.
 
-![Screenshot](screenshots/app.png)
+![App flow](screenshots/app.png)
 
 *App flow*
 
-![Screenshot](screenshots/windows_notification.png)
+![Windows notification](screenshots/windows_notification.png)
 
 *Windows notification*
 
-![Screenshot](screenshots/linux_notification.png)
+![Linux notification](screenshots/linux_notification.png)
 
 *Linux notification*
 
@@ -23,3 +23,8 @@ pomodoro --help
 # Example
 pomodoro --focus 50 --short-break 10 --long-break 30
 ```
+
+### Keyboard shortcuts
+- Space - Pause/Resume
+- Tab - Skip
+- Esc, Ctrl+c - Exit
